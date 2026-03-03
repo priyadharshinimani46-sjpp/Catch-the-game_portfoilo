@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Catch the Star</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to bottom, #001f3f, #0074D9);
+      color: white;
+    }
+    #game-area {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      margin: 20px auto;
+      background: #111;
+      border: 2px solid #fff;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      font-size: 2rem;
+      cursor: pointer;
+      color: gold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Catch the Star ⭐</h1>
+  <p>Click the star before it disappears!</p>
+  <div id="game-area"></div>
+  <p id="score">Score: 0</p>
+
+  <script>
+    const gameArea = document.getElementById("game-area");
+    const scoreDisplay = document.getElementById("score");
+    let score = 0;
+
+    function spawnStar() {
+      const star = document.createElement("div");
+      star.textContent = "⭐";
+      star.classList.add("star");
+
+      // Random position
+      const x = Math.random() * (gameArea.clientWidth - 40);
+      const y = Math.random() * (gameArea.clientHeight - 40);
+      star.style.left = `${x}px`;
+      star.style.top = `${y}px`;
+
+      // Add click event
+      star.addEventListener("click", () => {
+        score++;
+        scoreDisplay.textContent = `Score: ${score}`;
+        star.remove();
+      });
+
+      gameArea.appendChild(star);
+
+      // Remove after 2 seconds if not clicked
+      setTimeout(() => {
+        if (gameArea.contains(star)) {
+          star.remove();
+        }
+      }, 2000);
+    }
+
+    // Spawn stars every second
+    setInterval(spawnStar, 1000);
+  </script>
+</body>
+</html>

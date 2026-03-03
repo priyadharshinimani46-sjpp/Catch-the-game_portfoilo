@@ -25,6 +25,12 @@
       cursor: pointer;
       color: gold;
     }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -32,11 +38,17 @@
   <p>Click the star before it disappears!</p>
   <div id="game-area"></div>
   <p id="score">Score: 0</p>
+  <button id="start">Start Game</button>
+  <button id="stop">Stop Game</button>
 
   <script>
     const gameArea = document.getElementById("game-area");
     const scoreDisplay = document.getElementById("score");
+    const startBtn = document.getElementById("start");
+    const stopBtn = document.getElementById("stop");
+
     let score = 0;
+    let gameInterval = null;
 
     function spawnStar() {
       const star = document.createElement("div");
@@ -66,8 +78,20 @@
       }, 2000);
     }
 
-    // Spawn stars every second
-    setInterval(spawnStar, 1000);
+    // Start game
+    startBtn.addEventListener("click", () => {
+      if (!gameInterval) {
+        score = 0;
+        scoreDisplay.textContent = `Score: ${score}`;
+        gameInterval = setInterval(spawnStar, 1000);
+      }
+    });
+
+    // Stop game
+    stopBtn.addEventListener("click", () => {
+      clearInterval(gameInterval);
+      gameInterval = null;
+    });
   </script>
 </body>
 </html>
